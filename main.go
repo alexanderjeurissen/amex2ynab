@@ -204,17 +204,14 @@ func findColumnIndex(header []string, possibleNames []string) int {
 func formatDate(dateStr string) string {
 	// Try different date formats
 	formats := []string{
-		"02-01-2006",      // DD-MM-YYYY
-		"02/01/2006",      // DD/MM/YYYY
-		"2006-01-02",      // YYYY-MM-DD
-		"01/02/2006",      // MM/DD/YYYY
-		"January 2, 2006", // Month D, YYYY
-		"2 January 2006",  // D Month YYYY
+		"01/02/2006", // MM/DD/YYYY
+		"02/01/2006", // DD/MM/YYYY
 	}
 
 	for _, format := range formats {
 		if t, err := time.Parse(format, dateStr); err == nil {
-			return t.Format("2006-01-02") // YYYY-MM-DD
+			// Format as YYYY-MM-DD (year-month-day)
+			return fmt.Sprintf("%04d-%02d-%02d", t.Year(), t.Month(), t.Day())
 		}
 	}
 
